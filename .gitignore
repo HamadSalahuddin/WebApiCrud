@@ -1,15 +1,12 @@
 applicationhost.config
-.vs/UnitTestingWebApi/v16
+BookService/.vs/BookService/v16
 packages
 
 # all bin folders
 bin
 
 #obj/Debug
-UnitTestingWebApi.API/obj/Debug
+BookService/BookService/obj/Debug
 UnitTestingWebApi.API.Core/obj/Debug
-UnitTestingWebApi.Data/obj/Debug
-UnitTestingWebApi.Data/obj/Debug
-UnitTestingWebApi.Domain/obj/Debug
-UnitTestingWebApi.Services/obj/Debug
-UnitTestingWebApi.Tests/obj/Debug
+
+/BookService/BookService/App_Data
