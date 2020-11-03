@@ -18,17 +18,34 @@ namespace BookService.Controllers
         private BookServiceContext db = new BookServiceContext();
 
         // GET: api/Books
-        public IQueryable<Book> GetBooks()
+        public IQueryable<BookDto> GetBooks()
         {
-            return db.Books
-                .Include(book => book.Author);
+            return from book in db.Books
+                   select new BookDto
+                   {
+                       Id = book.Id,
+                       Title = book.Title,
+                       AuthorName = book.Author.Name
+                   };
         }
 
         // GET: api/Books/5
-        [ResponseType(typeof(Book))]
+        [ResponseType(typeof(BookDetailDto))]
         public async Task<IHttpActionResult> GetBook(int id)
         {
-            Book book = await db.Books.FindAsync(id);
+            var book = await db.Books
+                .Include(b => b.Author)
+                .Select(b => new BookDetailDto
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Year = b.Year,
+                    Price = b.Price,
+                    AuthorName = b.Author.Name,
+                    Genre = b.Genre
+                })
+                .SingleOrDefaultAsync(b => b.Id == id);
+
             if (book == null)
             {
                 return NotFound();
@@ -73,7 +90,7 @@ namespace BookService.Controllers
         }
 
         // POST: api/Books
-        [ResponseType(typeof(Book))]
+        [ResponseType(typeof(BookDto))]
         public async Task<IHttpActionResult> PostBook(Book book)
         {
             if (!ModelState.IsValid)
@@ -83,6 +100,8 @@ namespace BookService.Controllers
 
             db.Books.Add(book);
             await db.SaveChangesAsync();
+
+            db.Entry(book).Reference(b => b.Author).Load();
 
             return CreatedAtRoute("DefaultApi", new { id = book.Id }, book);
         }

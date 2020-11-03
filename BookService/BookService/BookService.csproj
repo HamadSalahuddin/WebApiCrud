@@ -173,6 +173,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
+    <Compile Include="Models\BookDetailDto.cs" />
+    <Compile Include="Models\BookDto.cs" />
     <Compile Include="Models\BookServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
